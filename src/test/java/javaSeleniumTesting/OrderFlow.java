@@ -1,4 +1,4 @@
-package kursSelenium;
+package javaSeleniumTesting;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class LoginPageTest {
+public class OrderFlow {
     WebDriver driver;
 
     @BeforeEach
@@ -41,11 +41,8 @@ public class LoginPageTest {
         String postalCode = "00-100";
 
         driver.get("https://www.saucedemo.com/");
-        driver.findElement(By.id("user-name")).sendKeys(username);
-        driver.findElement(By.id("password")).sendKeys(password);
-        driver.findElement(By.id("login-button")).click();
-        String urlAfterLogin = driver.getCurrentUrl();
-        Assert.assertTrue(urlAfterLogin.contains("inventory"));
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        loginPage.loggingIn(username, password);
         driver.findElement(By.id("item_4_title_link")).click();
         driver.findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
         driver.findElement(By.id("shopping_cart_container")).click();
