@@ -33,4 +33,14 @@ public class LoginPagePOM {
         WebElement errorMessage = driver.findElement(By.xpath("//h3[contains(text(), 'Username and password do not match any user in this service')]"));
         Assert.assertTrue(errorMessage.isDisplayed());
     }
+
+    public void loggingInWithIncorrectUsername(String incorrectUsername, String password) {
+        driver.findElement(By.id("user-name")).sendKeys(incorrectUsername);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("login-button")).click();
+        String urlAfterLogin = driver.getCurrentUrl();
+        Assert.assertFalse(urlAfterLogin.contains("inventory"));
+        WebElement errorMessage = driver.findElement(By.xpath("//h3[contains(text(), 'Username and password do not match any user in this service')]"));
+        Assert.assertTrue(errorMessage.isDisplayed());
+    }
 }

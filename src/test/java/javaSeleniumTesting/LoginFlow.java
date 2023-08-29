@@ -49,4 +49,16 @@ public class LoginFlow {
         loginPage.goTo();
         loginPage.loggingInWithIncorrectCredentials(incorrectUsername, incorrectPassword);
     }
+
+    @Test
+    public void loginWithIncorrectUsername() {
+
+        //Given
+        String incorrectUsername = "new_user";
+        String password = "secret_sauce";
+
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        loginPage.goTo();
+        loginPage.loggingInWithIncorrectUsername(incorrectUsername, password);
+    }
 }
