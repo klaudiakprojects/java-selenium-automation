@@ -9,6 +9,11 @@ public class LoginPagePOM {
     }
 
     WebDriver driver;
+
+    public void goTo() {
+        driver.get("https://www.saucedemo.com/");
+    }
+
     public void loggingIn(String username, String password) {
         driver.findElement(By.id("user-name")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys(password);

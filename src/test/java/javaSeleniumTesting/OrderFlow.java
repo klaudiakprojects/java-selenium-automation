@@ -40,26 +40,20 @@ public class OrderFlow {
         String lastName = "Nazwisko";
         String postalCode = "00-100";
 
-        driver.get("https://www.saucedemo.com/");
         LoginPagePOM loginPage = new LoginPagePOM(driver);
+        MainPageAfterLoginPOM mainPage = new MainPageAfterLoginPOM(driver);
+        ProductPagePOM productPage = new ProductPagePOM(driver);
+        BasketPagePOM basketPage = new BasketPagePOM(driver);
+        CheckoutPagePOM checkoutPage = new CheckoutPagePOM(driver);
+
+        loginPage.goTo();
         loginPage.loggingIn(username, password);
-        driver.findElement(By.id("item_4_title_link")).click();
-        driver.findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
-        driver.findElement(By.id("shopping_cart_container")).click();
-        String cartUrl = driver.getCurrentUrl();
-        Assert.assertTrue(cartUrl.contains("cart"));
-        String cartItemName = driver.findElement(By.id("item_4_title_link")).getText();
-        String cartItemPrice = driver.findElement(By.className("inventory_item_price")).getText();
-        Assert.assertEquals(firstItemName, cartItemName);
-        Assert.assertEquals(firstItemPrice, cartItemPrice);
-        driver.findElement(By.id("checkout")).click();
-        driver.findElement(By.id("first-name")).sendKeys(firstName);
-        driver.findElement(By.id("last-name")).sendKeys(lastName);
-        driver.findElement(By.id("postal-code")).sendKeys(postalCode);
-        driver.findElement(By.id("continue")).click();
-        String checkoutItemName = driver.findElement(By.className("inventory_item_name")).getText();
-        String checkoutItemPrice = driver.findElement(By.className("inventory_item_price")).getText();
-        Assert.assertEquals(firstItemName, checkoutItemName);
-        Assert.assertEquals(firstItemPrice, checkoutItemPrice);
+        mainPage.choosingItem();
+        productPage.addingItemToBasket();
+        productPage.goToBasket();
+        basketPage.verifyBasket(firstItemName, firstItemPrice);
+        basketPage.goToCheckout();
+        checkoutPage.completeDetails(firstName, lastName, postalCode);
+        checkoutPage.verifyProductDetails(firstItemName, firstItemPrice);
     }
 }
