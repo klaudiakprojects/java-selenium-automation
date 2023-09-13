@@ -61,4 +61,24 @@ public class LoginFlow {
         loginPage.goTo();
         loginPage.loggingInWithIncorrectUsername(incorrectUsername, password);
     }
+
+    @Test
+    public void loginWithIncorrectPassword() {
+
+        //Given
+        String username = "standard_user";
+        String incorrectPassword = "new_password";
+
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        loginPage.goTo();
+        loginPage.loggingInWithIncorrectPassword(username, incorrectPassword);
+    }
+
+    @Test
+    public void loginWithoutAnyData() {
+
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        loginPage.goTo();
+        loginPage.loggingInWithoutAnyData();
+    }
 }
