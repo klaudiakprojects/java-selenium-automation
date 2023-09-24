@@ -36,60 +36,32 @@ public class UITesting {
     }
 
     @Test
-    public void UITest() {
+    public void sortLowToHighPrices() {
 
         //Given
         String username = "standard_user";
         String password = "secret_sauce";
 
         LoginPagePOM loginPage = new LoginPagePOM(driver);
+        MainPageAfterLoginPOM mainPageAfterLogin = new MainPageAfterLoginPOM(driver);
 
         loginPage.goTo();
         loginPage.loggingIn(username, password);
+        mainPageAfterLogin.sortingPricesLowToHigh();
+    }
 
-        List<WebElement> priceElementsBeforeSort = driver.findElements(By.className("inventory_item_price"));
-        List<String> pricesBeforeSort = new ArrayList<>();
+    @Test
+    public void sortHighToLowPrices() {
 
-        for (WebElement priceElement : priceElementsBeforeSort) {
-            String priceText = priceElement.getText();
-            String regexPattern = "[0-9.]+";
-            Pattern pattern = Pattern.compile(regexPattern);
-            Matcher matcher = pattern.matcher(priceText);
+        //Given
+        String username = "standard_user";
+        String password = "secret_sauce";
 
-            if (matcher.find()) {
-                String price = matcher.group();
-                pricesBeforeSort.add(price);
-            }
-        }
-        List<Double> pricesAsDouble = new ArrayList<>();
-        for (String priceString : pricesBeforeSort) {
-            double priceDouble = Double.parseDouble(priceString);
-            pricesAsDouble.add(priceDouble);
-        }
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        MainPageAfterLoginPOM mainPageAfterLoginPOM = new MainPageAfterLoginPOM(driver);
 
-        Collections.sort(pricesAsDouble);
-
-        WebElement selectElement = driver.findElement(By.className("product_sort_container"));
-        selectElement.click();
-
-        WebElement priceLowToHigh = driver.findElement(By.cssSelector("option[value='lohi']"));
-        priceLowToHigh.click();
-
-        List<WebElement> priceElements = driver.findElements(By.className("inventory_item_price"));
-        List<Double> prices = new ArrayList<>();
-
-        for (WebElement priceElement : priceElements) {
-            String priceText = priceElement.getText();
-            String regexPattern = "[0-9.]+";
-            Pattern pattern = Pattern.compile(regexPattern);
-            Matcher matcher = pattern.matcher(priceText);
-
-            if (matcher.find()) {
-                String price = matcher.group();
-                prices.add(Double.parseDouble(price));
-            }
-        }
-        assertArrayEquals(pricesAsDouble.toArray(), prices.toArray());
-          }
-
+        loginPage.goTo();
+        loginPage.loggingIn(username, password);
+        mainPageAfterLoginPOM.sortingPricesHighToLow();
+    }
 }
