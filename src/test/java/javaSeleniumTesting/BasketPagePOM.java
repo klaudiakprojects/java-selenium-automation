@@ -19,6 +19,14 @@ public class BasketPagePOM {
     }
 
     public void goToCheckout() {
+
         driver.findElement(By.id("checkout")).click();
     }
+
+    public void deleteOneAndOnlyThingFromOrder(String firstItemName) {
+        driver.findElement(By.id("remove-sauce-labs-backpack")).click();
+        boolean backpackExistence = driver.findElements(By.xpath("//*[contains(text(), '" + firstItemName + "')]")).size() > 0;
+        Assert.assertTrue(!backpackExistence);
+    }
+
 }

@@ -56,4 +56,27 @@ public class OrderFlow {
         checkoutPage.completeDetails(firstName, lastName, postalCode);
         checkoutPage.verifyProductDetails(firstItemName, firstItemPrice);
     }
+
+    @Test
+    public void deleteOneAndOnlyThingFromOrder() {
+
+        //Given
+        String username = "standard_user";
+        String password = "secret_sauce";
+        String firstItemName = "Sauce Labs Backpack";
+        String firstItemPrice = "$29.99";
+
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        MainPageAfterLoginPOM mainPage = new MainPageAfterLoginPOM(driver);
+        ProductPagePOM productPage = new ProductPagePOM(driver);
+        BasketPagePOM basketPage = new BasketPagePOM(driver);
+
+        loginPage.goTo();
+        loginPage.loggingIn(username, password);
+        mainPage.choosingItem();
+        productPage.addingItemToBasket();
+        productPage.goToBasket();
+        basketPage.verifyBasket(firstItemName, firstItemPrice);
+        basketPage.deleteOneAndOnlyThingFromOrder(firstItemName);
+    }
 }
