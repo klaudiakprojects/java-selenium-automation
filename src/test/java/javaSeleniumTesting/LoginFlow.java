@@ -13,7 +13,7 @@ public class LoginFlow {
 
     @BeforeEach
     public void driverSetup() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver_win32/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments(new String[]{"--incognito"});
         chromeOptions.addArguments(new String[]{"window-size=1980,1080"});

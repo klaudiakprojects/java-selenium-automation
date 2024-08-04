@@ -14,7 +14,7 @@ public class OrderFlow {
 
     @BeforeEach
     public void driverSetup() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver_win32/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments(new String[]{"--incognito"});
         chromeOptions.addArguments(new String[]{"window-size=1980,1080"});
@@ -48,10 +48,10 @@ public class OrderFlow {
 
         loginPage.goTo();
         loginPage.loggingIn(username, password);
-        mainPage.choosingItem();
+        mainPage.choosingFirstItem();
         productPage.addingItemToBasket();
         productPage.goToBasket();
-        basketPage.verifyBasket(firstItemName, firstItemPrice);
+        basketPage.verifyBasketWithOneProduct(firstItemName, firstItemPrice);
         basketPage.goToCheckout();
         checkoutPage.completeDetails(firstName, lastName, postalCode);
         checkoutPage.verifyProductDetails(firstItemName, firstItemPrice);
@@ -73,10 +73,35 @@ public class OrderFlow {
 
         loginPage.goTo();
         loginPage.loggingIn(username, password);
-        mainPage.choosingItem();
+        mainPage.choosingFirstItem();
         productPage.addingItemToBasket();
         productPage.goToBasket();
-        basketPage.verifyBasket(firstItemName, firstItemPrice);
+        basketPage.verifyBasketWithOneProduct(firstItemName, firstItemPrice);
         basketPage.deleteOneAndOnlyThingFromOrder(firstItemName);
+    }
+@Test
+    public void addTwoDifferentProductsToTheCart() {
+        //Given
+        String username = "standard_user";
+        String password = "secret_sauce";
+        String firstItemName = "Sauce Labs Backpack";
+        String firstItemPrice = "$29.99";
+        String secondItemName = "Sauce Labs Bike Light";
+        String secondItemPrice = "$9.99";
+
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        MainPageAfterLoginPOM mainPage = new MainPageAfterLoginPOM(driver);
+        ProductPagePOM productPage = new ProductPagePOM(driver);
+        BasketPagePOM basketPage = new BasketPagePOM(driver);
+
+        loginPage.goTo();
+        loginPage.loggingIn(username, password);
+        mainPage.choosingFirstItem();
+        productPage.addingItemToBasket();
+        driver.navigate().back();
+        mainPage.choosingSecondItem();
+        productPage.addingItemToBasket();
+        productPage.goToBasket();
+        basketPage.verifyBasketWithTwoProducts(firstItemName, firstItemPrice, secondItemName, secondItemPrice);
     }
 }

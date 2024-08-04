@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,9 +19,17 @@ public class MainPageAfterLoginPOM {
     }
 
     WebDriver driver;
-    public void choosingItem() {
+
+    public void choosingFirstItem() {
+
         driver.findElement(By.id("item_4_title_link")).click();
     }
+
+    public void choosingSecondItem() {
+
+        driver.findElement(By.id("item_0_title_link")).click();
+    }
+
 
     public void sortingPricesLowToHigh() {
         List<WebElement> priceElementsBeforeSort = driver.findElements(By.className("inventory_item_price"));
@@ -69,10 +78,10 @@ public class MainPageAfterLoginPOM {
     }
 
     public void sortingPricesHighToLow() {
-        List<WebElement> priceElementsBeforeSort2 = driver.findElements(By.className("inventory_item_price"));
-        List<String> pricesBeforeSort2 = new ArrayList<>();
+        List<WebElement> priceElementsBeforeSort = driver.findElements(By.className("inventory_item_price"));
+        List<String> pricesBeforeSort = new ArrayList<>();
 
-        for (WebElement priceElement : priceElementsBeforeSort2) {
+        for (WebElement priceElement : priceElementsBeforeSort) {
             String priceText = priceElement.getText();
             String regexPattern = "[0-9.]+";
             Pattern pattern = Pattern.compile(regexPattern);
@@ -80,16 +89,16 @@ public class MainPageAfterLoginPOM {
 
             if (matcher.find()) {
                 String price = matcher.group();
-                pricesBeforeSort2.add(price);
+                pricesBeforeSort.add(price);
             }
         }
-        List<Double> pricesAsDouble2 = new ArrayList<>();
-        for (String priceString : pricesBeforeSort2) {
+        List<Double> pricesAsDouble = new ArrayList<>();
+        for (String priceString : pricesBeforeSort) {
             double priceDouble = Double.parseDouble(priceString);
-            pricesAsDouble2.add(priceDouble);
+            pricesAsDouble.add(priceDouble);
         }
 
-        Collections.sort(pricesAsDouble2, Collections.reverseOrder());
+        Collections.sort(pricesAsDouble, Collections.reverseOrder());
 
         WebElement selectElement2 = driver.findElement(By.className("product_sort_container"));
         selectElement2.click();
@@ -111,6 +120,58 @@ public class MainPageAfterLoginPOM {
                 prices2.add(Double.parseDouble(price));
             }
         }
-        assertArrayEquals(pricesAsDouble2.toArray(), prices2.toArray());
+        assertArrayEquals(pricesAsDouble.toArray(), prices2.toArray());
+    }
+
+    public void sortingNamesAToZ() {
+        List<WebElement> nameElementsBeforeSort = driver.findElements(By.xpath("//*[contains(@class, 'inventory_item_name')]"));
+        List<String> namesBeforeSort = new ArrayList<>();
+
+        for (WebElement nameElement : nameElementsBeforeSort) {
+            String nameText = nameElement.getText();
+         namesBeforeSort.add(nameText);
+        }
+       Collections.sort(namesBeforeSort);
+
+        WebElement selectElement = driver.findElement(By.className("product_sort_container"));
+        selectElement.click();
+
+        WebElement nameAToZ = driver.findElement(By.cssSelector("option[value='az']"));
+        nameAToZ.click();
+
+        List<WebElement> nameElementsAfterSort = driver.findElements(By.xpath("//*[contains(@class, 'inventory_item_name')]"));
+        List<String> namesAfterSort = new ArrayList<>();
+
+        for (WebElement nameElement : nameElementsAfterSort) {
+            String nameText = nameElement.getText();
+            namesAfterSort.add(nameText);
+        }
+        assertArrayEquals(namesBeforeSort.toArray(), namesAfterSort.toArray());
+    }
+
+    public void sortingNamesZToA() {
+        List<WebElement> nameElementsBeforeSort = driver.findElements(By.xpath("//*[contains(@class, 'inventory_item_name')]"));
+        List<String> namesBeforeSort = new ArrayList<>();
+
+        for (WebElement nameElement : nameElementsBeforeSort) {
+            String nameText = nameElement.getText();
+            namesBeforeSort.add(nameText);
+        }
+      Collections.reverse(namesBeforeSort);
+
+        WebElement selectElement = driver.findElement(By.className("product_sort_container"));
+        selectElement.click();
+
+        WebElement nameZToA = driver.findElement(By.cssSelector("option[value='za']"));
+        nameZToA.click();
+
+        List<WebElement> nameElementsAfterSort = driver.findElements(By.xpath("//*[contains(@class, 'inventory_item_name')]"));
+        List<String> namesAfterSort = new ArrayList<>();
+
+        for (WebElement nameElement : nameElementsAfterSort) {
+            String nameText = nameElement.getText();
+            namesAfterSort.add(nameText);
+        }
+        assertArrayEquals(namesBeforeSort.toArray(), namesAfterSort.toArray());
     }
 }

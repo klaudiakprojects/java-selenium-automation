@@ -9,7 +9,7 @@ public class ProductPagePOM {
 
     WebDriver driver;
     public void addingItemToBasket() {
-        driver.findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
+        driver.findElement(By.id("add-to-cart")).click();
     }
 
     public void goToBasket() {

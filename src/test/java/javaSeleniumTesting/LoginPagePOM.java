@@ -13,6 +13,7 @@ public class LoginPagePOM {
     WebDriver driver;
 
     public void goTo() {
+
         driver.get("https://www.saucedemo.com/");
     }
 
