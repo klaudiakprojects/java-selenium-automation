@@ -1,5 +1,6 @@
 package javaSeleniumTesting;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,6 +20,12 @@ public class MainPageAfterLoginPOM {
     }
 
     WebDriver driver;
+
+
+    public void visabilityOfProductsOnTheMainPage() {
+        List<WebElement> allProductsOnTheFirstPage = driver.findElements(By.className("inventory_item"));
+        Assert.assertEquals(6, allProductsOnTheFirstPage.size());
+    }
 
     public void choosingFirstItem() {
 

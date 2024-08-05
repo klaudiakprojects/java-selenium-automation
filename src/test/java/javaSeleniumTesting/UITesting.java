@@ -38,6 +38,20 @@ public class UITesting {
     }
 
     @Test
+    public void visabilityOfProductsOnTheMainPage() {
+        //Given
+        String username = "standard_user";
+        String password = "secret_sauce";
+
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        MainPageAfterLoginPOM mainPageAfterLogin = new MainPageAfterLoginPOM(driver);
+
+        loginPage.goTo();
+        loginPage.loggingIn(username, password);
+        mainPageAfterLogin.visabilityOfProductsOnTheMainPage();
+    }
+
+    @Test
     public void sortLowToHighPrices() {
 
         //Given

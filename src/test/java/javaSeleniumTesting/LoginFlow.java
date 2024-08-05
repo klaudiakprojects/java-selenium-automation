@@ -81,4 +81,15 @@ public class LoginFlow {
         loginPage.goTo();
         loginPage.loggingInWithoutAnyData();
     }
+
+    @Test
+    public void loggingInAsALockedUser() {
+        //Given
+        String username = "locked_out_user";
+        String password = "secret_sauce";
+
+        LoginPagePOM loginPage = new LoginPagePOM(driver);
+        loginPage.goTo();
+        loginPage.loggingInAsALockedUser(username, password);
+    }
 }

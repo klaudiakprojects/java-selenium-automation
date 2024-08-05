@@ -62,4 +62,13 @@ public class LoginPagePOM {
         WebElement errorMessage = driver.findElement(By.xpath("//h3[contains(text(), 'Username is required')]"));
         Assert.assertTrue(errorMessage.isDisplayed());
     }
+
+    public void loggingInAsALockedUser(String username, String password) {
+        driver.findElement(By.id("user-name")).sendKeys(username);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("login-button")).click();
+        String urlAfterLogin = driver.getCurrentUrl();
+        Assert.assertFalse(urlAfterLogin.contains("inventory"));
+        WebElement errorMessage = driver.findElement(By.xpath("//h3[contains(text(), 'Sorry, this user has been locked out')]"));
+    }
 }
